@@ -1,0 +1,22 @@
+<script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+code
+// Cargar Web3
+if (typeof web3 !== 'undefined') {
+  web3 = new Web3(web3.currentProvider);
+} else {
+  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545")); // Cambia la URL si estás usando otra red
+}
+
+// Cargar el contrato inteligente
+var contractAddress = "0x123..."; // Inserta la dirección de tu contrato
+var contractABI = [...]; // Inserta el ABI de tu contrato
+var contract = new web3.eth.Contract(contractABI, contractAddress);
+// Llamar a la función registrar del contrato
+contract.methods.registrar("contenido a registrar").send({ from: web3.eth.defaultAccount })
+  .on('transactionHash', function(hash) {
+    console.log("Transacción enviada: " + hash);
+  })
+  .on('receipt', function(receipt) {
+    console.log("Transacción confirmada: " + receipt.transactionHash);
+  })
+  .on('error', console.error);
